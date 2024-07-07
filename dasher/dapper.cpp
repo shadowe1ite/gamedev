@@ -21,7 +21,6 @@ int main(){
         ClearBackground(WHITE);
         // logic begin
 
-
         // logic end
         EndDrawing();
     }

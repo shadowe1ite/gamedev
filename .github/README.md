@@ -1,6 +1,6 @@
 # Learn C++ Game devlopment 
 
-| - [resource](https://www.udemy.com/course/cpp-fundamentals/)
+> - [resource](https://www.udemy.com/course/cpp-fundamentals/)
 
 ### environment
 | Language | Library | OS      | Editor    |
