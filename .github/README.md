@@ -14,6 +14,6 @@
 
 | Project Name | Status  | Finished Date | Project Link                |
 |--------------|---------|---------------|-----------------------------|
-| Axe Game     | ✅      | 2024-07-06    | [Axe Game](./axe/) |
-| Dapper Dash  | ❌      |               |                             |
+| Axe Game     | ✅      | 2024-07-06    | [Axe Game](../axe/) |
+| Dapper Dasher  | ❌      |               | [Dapper Dasher]( ../dasher/)                            |
 | Classy Clash | ❌      |               |                             |
