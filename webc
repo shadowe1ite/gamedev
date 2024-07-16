@@ -44,9 +44,10 @@ function help(){
 function Win()
 {
     [[ ! -d $WIN_OUT ]] && mkdir -p "$WIN_OUT"
+
      x86_64-w64-mingw32-g++ \
         $FILE \
-        -o $WIN_OUT \ 
+        -o $WIN_OUT/run.exe \
         -lraylib -lgdi32 -lwinmm
     
 }
