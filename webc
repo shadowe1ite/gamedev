@@ -39,6 +39,54 @@ function help(){
         webc -c -m -w -p assets pong/main.cpp
     """
 }
+
+# create webpage
+function Page(){
+    DIR=$(ls -d */*/web)
+    gen() {
+        PAGE_DIR=./.github/index.html
+        touch $PAGE_DIR
+        echo "<!DOCTYPE html>
+        <html lang=\"en\">
+
+        <head>
+        <meta charset=\"utf-8\"/>
+        <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />
+        <link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\"/>
+        <title>Programs</title>
+        </head>
+
+        <body>
+
+        <h1>Link To Programs</h1>" > $PAGE_DIR
+
+        echo -e "\n <ul>
+        " >> $PAGE_DIR
+
+        for i in $DIR; do
+            dir_name=$(echo $i | cut -d'/' -f1)
+            echo "<li><a href=\"$i\"/>$dir_name</a></li><br>" >> $PAGE_DIR
+        done
+
+        echo -e "\n</ul>
+
+        </body>" >> $PAGE_DIR
+    }
+
+    if [[ $1 == "-v" ]]; then
+    echo "Current Generated Tags"
+    echo "-----------------------"
+    for i in $DIR; do
+        echo "<li><a href=\"$i\"/>$i</a></li><br>"
+    done
+    echo "-----------------------"
+    gen
+    else
+    gen
+    fi
+
+    }
+
 # function for combile based on platforms
 
 function Win()
@@ -97,7 +145,7 @@ if [[ -z $1 ]]; then
     help
 
 else
-    while getopts ":p:c:w:m:a:d" opt; do
+    while getopts ":p:c:w:m:a:db" opt; do
         case $opt in
             p)
                 preload_file=$OPTARG
@@ -119,6 +167,9 @@ else
             d)
                 Cbin
                 ;;
+	    b)
+		Page
+		;;
             \?)
                 echo "Invalid option: -$OPTARG" >&2
                 help
