@@ -49,7 +49,6 @@ function Win()
         $FILE \
         -o $WIN_OUT/run.exe \
         -lraylib -lgdi32 -lwinmm
-    
 }
 
 function Web()
@@ -72,7 +71,7 @@ function Web()
         ~/code/raylib/src/web/libraylib.a \
         -DPLATFORM_WEB -s 'EXPORTED_FUNCTIONS=["_free","_malloc","_main"]' \
         -s EXPORTED_RUNTIME_METHODS=ccall \
-        #--preload-file Graphics --preload-file Sounds
+        #--preload-file dasher/assets/
 }
 
 function Tux()
@@ -119,6 +118,10 @@ else
                 ;;
             d)
                 Cbin
+                ;;
+            \?)
+                echo "Invalid option: -$OPTARG" >&2
+                help
                 ;;
             :)
                 echo "Option -$OPTARG requires an argument." >&2
