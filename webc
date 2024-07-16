@@ -58,7 +58,7 @@ function Page(){
 
         <body>
 
-        <h1>Link To Programs</h1>" > $PAGE_DIR
+        <h1>MY GAMES</h1>" > $PAGE_DIR
 
         echo -e "\n <ul>
         " >> $PAGE_DIR
