@@ -3,10 +3,10 @@
 # ALAN S
 #!/bin/bash
 
-yay -Sy --noconfirm raylib emsdk
+yay -Sy --noconfirm raylib emsdk mingw-w64-gcc mingw-w64-raylib
 sudo emsdk install latest
 sudo emsdk activate latest --permanent
 echo 'source "/usr/lib/emsdk/emsdk_env.sh"' >> $HOME/.zshrc
-git clone https://github.com/raysan5/raylib.git --depth=1
+git clone https://github.com/raysan5/raylib.git ~/code/raylib --depth=1
 cd raylib
 make -e PLATFORM=PLATFORM_WEB -B

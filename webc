@@ -1,27 +1,128 @@
 #!/bin/bash
-source "/usr/lib/emsdk/emsdk_env.sh"
+source "/usr/lib/emsdk/emsdk_env.sh" > /dev/null 2>&1
 
-FILE="$(pwd)/$1"
+FILE="$(pwd)/$2"
+
+# web dirs
 WEB_DIR=$(dirname "$FILE")
 WEB_OUT="$WEB_DIR/output/web"
 
-echo "$WEB_OUT"
-[[ ! -d $WEB_OUT ]] && mkdir -p "$WEB_DIR"
+# win dirs
+WIN_DIR=$(dirname "$FILE")
+WIN_OUT="$WIN_DIR/output/win"
 
-emcc \
-    -o $WEB_OUT/index.html \
-    $FILE \
-    -Wall -std=c++14 -D_DEFAULT_SOURCE \
-    -Wno-missing-braces -Wunused-result \
-    -Os -I. \
-    -I ~/code/raylib/src \
-    -I ~/code/raylib/src/external \
-    -L. -L ~/code/raylib/src \
-    -s USE_GLFW=3 -s ASYNCIFY \
-    -s TOTAL_MEMORY=67108864 \
-    -s FORCE_FILESYSTEM=1 \
-    --shell-file ~/code/raylib/src/shell.html \
-    ~/code/raylib/src/web/libraylib.a \
-    -DPLATFORM_WEB -s 'EXPORTED_FUNCTIONS=["_free","_malloc","_main"]' \
-    -s EXPORTED_RUNTIME_METHODS=ccall \
-    #--preload-file Graphics --preload-file Sounds
+# linux dirs
+TUX_DIR=$(dirname "$FILE")
+TUX_OUT="$TUX_DIR/output/linux"
+
+# help menu
+function help(){
+     echo """
+    Usage: 
+        webc [OPTIONS] [FILE]
+
+    Options:
+        -p
+            preload file (eg: sprite, audio, etc)
+        -w
+            combile for web (WASM)
+        -c 
+            combile for linux (ELF).
+        -m
+            combile for windows (EXE)
+        -a 
+            combile for all (ELF, EXE, WASM)
+        -c
+            clear all binary
+
+    Example:
+        webc -c -m -w -p assets pong/main.cpp
+    """
+}
+# function for combile based on platforms
+
+function Win()
+{
+    [[ ! -d $WIN_OUT ]] && mkdir -p "$WIN_OUT"
+     x86_64-w64-mingw32-g++ \
+        $FILE \
+        -o $WIN_OUT \ 
+        -lraylib -lgdi32 -lwinmm
+    
+}
+
+function Web()
+{
+    [[ ! -d $WEB_OUT ]] && mkdir -p "$WEB_OUT"
+
+     emcc \
+        $FILE \
+        -o $WEB_OUT/index.html \
+        -Wall -std=c++14 -D_DEFAULT_SOURCE \
+        -Wno-missing-braces -Wunused-result \
+        -Os -I. \
+        -I ~/code/raylib/src \
+        -I ~/code/raylib/src/external \
+        -L. -L ~/code/raylib/src \
+        -s USE_GLFW=3 -s ASYNCIFY \
+        -s TOTAL_MEMORY=67108864 \
+        -s FORCE_FILESYSTEM=1 \
+        --shell-file ~/code/raylib/src/shell.html \
+        ~/code/raylib/src/web/libraylib.a \
+        -DPLATFORM_WEB -s 'EXPORTED_FUNCTIONS=["_free","_malloc","_main"]' \
+        -s EXPORTED_RUNTIME_METHODS=ccall \
+        #--preload-file Graphics --preload-file Sounds
+}
+
+function Tux()
+{
+    [[ ! -d $TUX_OUT ]] && mkdir -p "$TUX_OUT"
+
+    g++ \
+        $FILE \
+        -o $TUX_OUT/run \
+        -g -lraylib -lGL \
+        -lm -lpthread \
+        -ldl -lrt \
+        -lX11 
+}
+
+function Cbin(){
+    for delete in $(find . -name "output" -type d);do 
+        rm -rf $delete
+    done
+}
+
+if [[ -z $1 ]]; then
+    help
+
+else
+    while getopts ":p:c:w:m:a:d" opt; do
+        case $opt in
+            p)
+                preload_file=$OPTARG
+                ;;
+            w)
+                Web
+                ;;
+            c)
+                Tux
+                ;;
+            m)
+                Win
+                ;;
+            a)
+                Web
+                Tux
+                Win
+                ;;
+            d)
+                Cbin
+                ;;
+            :)
+                echo "Option -$OPTARG requires an argument." >&2
+                help
+                ;;
+        esac
+    done    
+fi
