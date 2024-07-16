@@ -1,6 +1,9 @@
-# Learn C++ Game devlopment 
+# Learn C++ Game development 
 
-> - [resource](https://www.udemy.com/course/cpp-fundamentals/)
+#### <u>resource</u>
+> [Udemy](https://www.udemy.com/course/cpp-fundamentals/)
+
+> [Youtube](https://www.youtube.com/watch?v=nF_crEtmpBo&list=PLwR6ZGPvjVOT6G0n2XmsrDraZsIH8ndpN)
 
 ### environment
 | Language | Library | OS      | Editor    |
@@ -14,6 +17,7 @@
 
 | Project Name | Status  | Finished Date | Project Link                |
 |--------------|---------|---------------|-----------------------------|
-| Axe Game     | ✅      | 2024-07-06    | [Axe Game](../axe/) |
-| Dapper Dasher  | ❌      |               | [Dapper Dasher]( ../dasher/)                            |
+| Axe Game     | ✅      | 2024-07-06    | [Axe Game](../axe/)         |
+| Dapper Dasher  | ❌    |               | [Dapper Dasher]( ../dasher/)|
 | Classy Clash | ❌      |               |                             |
+| Pong         | ✅      | 2024-07-13    |  [Pong](../pong/)           |

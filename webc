@@ -1,0 +1,27 @@
+#!/bin/bash
+source "/usr/lib/emsdk/emsdk_env.sh"
+
+FILE="$(pwd)/$1"
+WEB_DIR=$(dirname "$FILE")
+WEB_OUT="$WEB_DIR/output/web"
+
+echo "$WEB_OUT"
+[[ ! -d $WEB_OUT ]] && mkdir -p "$WEB_DIR"
+
+emcc \
+    -o $WEB_OUT/index.html \
+    $FILE \
+    -Wall -std=c++14 -D_DEFAULT_SOURCE \
+    -Wno-missing-braces -Wunused-result \
+    -Os -I. \
+    -I ~/code/raylib/src \
+    -I ~/code/raylib/src/external \
+    -L. -L ~/code/raylib/src \
+    -s USE_GLFW=3 -s ASYNCIFY \
+    -s TOTAL_MEMORY=67108864 \
+    -s FORCE_FILESYSTEM=1 \
+    --shell-file ~/code/raylib/src/shell.html \
+    ~/code/raylib/src/web/libraylib.a \
+    -DPLATFORM_WEB -s 'EXPORTED_FUNCTIONS=["_free","_malloc","_main"]' \
+    -s EXPORTED_RUNTIME_METHODS=ccall \
+    #--preload-file Graphics --preload-file Sounds

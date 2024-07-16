@@ -1,0 +1,12 @@
+# Installation script specifically for arch linux
+# Date: 15-07-2024
+# ALAN S
+#!/bin/bash
+
+yay -Sy --noconfirm raylib emsdk
+sudo emsdk install latest
+sudo emsdk activate latest --permanent
+echo 'source "/usr/lib/emsdk/emsdk_env.sh"' >> $HOME/.zshrc
+git clone https://github.com/raysan5/raylib.git --depth=1
+cd raylib
+make -e PLATFORM=PLATFORM_WEB -B
