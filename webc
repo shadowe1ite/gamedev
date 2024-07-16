@@ -44,7 +44,7 @@ function help(){
 function Page(){
     DIR=$(ls -d */*/web)
     gen() {
-        PAGE_DIR=./.github/index.html
+        PAGE_DIR=./index.html
         touch $PAGE_DIR
         echo "<!DOCTYPE html>
         <html lang=\"en\">
