@@ -32,7 +32,7 @@ function help(){
             combile for windows (EXE)
         -a 
             combile for all (ELF, EXE, WASM)
-        -c
+        -d
             clear all binary
 
     Example:
@@ -96,7 +96,10 @@ function Win()
      x86_64-w64-mingw32-g++ \
         $FILE \
         -o $WIN_OUT/run.exe \
-        -lraylib -lgdi32 -lwinmm
+        -lraylib -lgdi32 -lwinmm \
+	-I . -I ./dep/include/win/ \
+	-L ./dep/lib/win/ \
+     	-static
 }
 
 function Web()
@@ -109,14 +112,12 @@ function Web()
         -Wall -std=c++14 -D_DEFAULT_SOURCE \
         -Wno-missing-braces -Wunused-result \
         -Os -I. \
-        -I ~/code/raylib/src \
-        -I ~/code/raylib/src/external \
-        -L. -L ~/code/raylib/src \
+        -I ./dep/include/web/ \
         -s USE_GLFW=3 -s ASYNCIFY \
         -s TOTAL_MEMORY=67108864 \
         -s FORCE_FILESYSTEM=1 \
         --shell-file ~/code/raylib/src/shell.html \
-        ~/code/raylib/src/web/libraylib.a \
+        ./dep/lib/web/libraylib.a \
         -DPLATFORM_WEB -s 'EXPORTED_FUNCTIONS=["_free","_malloc","_main"]' \
         -s EXPORTED_RUNTIME_METHODS=ccall \
         #--preload-file dasher/assets/
@@ -132,7 +133,9 @@ function Tux()
         -g -lraylib -lGL \
         -lm -lpthread \
         -ldl -lrt \
-        -lX11 
+        -lX11 \
+	-L ./dep/lib/linux/ \
+	-static
 }
 
 function Cbin(){
