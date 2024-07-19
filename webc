@@ -130,12 +130,10 @@ function Tux()
     g++ \
         $FILE \
         -o $TUX_OUT/run \
-        -g -lraylib -lGL \
+        -g -L./dep/lib/linux/ -Wl,-Bstatic -lraylib -Wl,-Bdynamic -lGL \
         -lm -lpthread \
         -ldl -lrt \
-        -lX11 \
-	-L ./dep/lib/linux/ \
-	-static
+        -lX11
 }
 
 function Cbin(){
